@@ -1,0 +1,20 @@
+/*1.1)
+  1.1.1) select Nome, YEAR(DataNasc) from UTENTE;
+  1.1.2) select Nome, MONTH(DataNasc),DAY(DataNasc) from UTENTE where YEAR(DataNasc)>2000;
+         select Nome, MONTH(DataNasc),DAY(DataNasc) from UTENTE where YEAR(DataNasc)>2000;
+  1.1.3) select Nome from UTENTE where Nome like 'Pedro%' or Nome like '%Silva' order by Nome;
+  1.1.4) select ISBN,Num,EmpUtente from CÓPIA where EmpUtente IS NOT NULL and EmpUtente <> 1;
+  1.1.5) select concat(Título,", ",Editora,", ",Ano,", ",ISBN,", ") as "Informação Livro" from LIVRO;
+*/
+/*1.2)
+  1.2.2) update UTENTE set email=upper(email);
+  1.2.3) update CÓPIA  set Estante='E99', Prateleira=Prateleira+1 where Estante like 'E1%';
+*/
+
+/*2
+    2.1:
+        2.1.1) alter table UTENTE modify  Email varchar(64) default NULL;
+        2.1.2) alter table ESTANTE modidy Secção varchar(3) default 'L';
+        2.1.3) alter table CÓPIA  modify EmpData date default NULL, modify EmpUtente int(11) default Null;
+
+*/
