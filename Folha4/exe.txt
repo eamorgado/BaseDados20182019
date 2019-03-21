@@ -14,7 +14,36 @@
 /*2
     2.1:
         2.1.1) alter table UTENTE modify  Email varchar(64) default NULL;
-        2.1.2) alter table ESTANTE modidy Secção varchar(3) default 'L';
+        2.1.2) alter table ESTANTE modify Secção varchar(3) default 'L';
         2.1.3) alter table CÓPIA  modify EmpData date default NULL, modify EmpUtente int(11) default Null;
+
+    2.3:
+        2.3.1) alter table LIVRO drop column Editora;
+        2.3.2) alter table LIVRO add column Conservação enum('Novo','Bom','Mau') not null default 'Bom';
+
+    2.2-2.4://ir ao ficheiro
+*/
+
+/*3
+    3.1) select Nome from AUTORES order by Nome;
+    3.2) select distinct Nome from AUTORES order by Nome;
+    3.3) select Nome from UTENTE where Sexo like 'M' order by DataNasc desc;
+    3.4) select Nome from UTENTE where Sexo like 'F' order by DataNasc desc limit 1;
+    3.5) select L.Título from LIVRO L, CÓPIA C where L.ISBN=C.ISBN order by C.ISBN;
+     ou :select Título from LIVRO where ISBN in  (select ISBN from CÓPIA order by ISBN);
+     ou :select ISBN from CÓPIA order by ISBN, EmpUtente;
+    3.6) select distinct ISBN from CÓPIA where EmpUtente is not null;
+     ou :select Título from LIVRO where ISBN in  (select ISBN from CÓPIA order by ISBN);
+    3.7) select Título from LIVRO where ISBN in  (select ISBN from CÓPIA order by EmpData desc) limit 3;
+*/
+
+/*4
+    4.1) select count(*) as NúmeroCópias from CÓPIA;
+    4.2) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null;
+    4.3) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null group by ISBN;
+    4.4) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null and Num>=2 group by ISBN;
+    4.5) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null and Num>=2 group by ISBN;
+         select max(EmpData) as 'Data' from CÓPIA group by ISBN order by data;
+    4.6) 
 
 */

@@ -8,18 +8,18 @@
 CREATE DATABASE IF NOT EXISTS guest;
 USE guest;
 
-DROP TABLE IF EXISTS
-  CÓPIA,
-  PRATELEIRA,
-  ESTANTE,
-  SECÇÃO,
+DROP TABLE IF EXISTS 
+  CÓPIA, 
+  PRATELEIRA, 
+  ESTANTE, 
+  SECÇÃO, 
   AUTORES,
-  LIVRO,
+  LIVRO, 
   UTENTE;
 
 CREATE TABLE UTENTE
 (
-  Num INT NOT NULL AUTO_INCREMENT,
+  Num INT NOT NULL,
   CC INT NOT NULL,
   Nome VARCHAR(64) NOT NULL,
   DataNasc DATE NOT NULL,
@@ -34,24 +34,23 @@ CREATE TABLE LIVRO
 (
   ISBN BIGINT NOT NULL,
   Título VARCHAR(64) NOT NULL,
-  Editora VARCHAR(32) NOT NULL,
-  Ano YEAR NOT NULL,
+  Editora VARCHAR(32) NOT NULL, 
+  Ano YEAR NOT NULL, 
   PRIMARY KEY(ISBN)
 );
 
 CREATE TABLE AUTORES
 (
   ISBN BIGINT NOT NULL,
-  Nome VARCHAR(64) NOT NULL,
+  Nome VARCHAR(64) NOT NULL, 
   PRIMARY KEY(ISBN, Nome),
   FOREIGN KEY(ISBN) REFERENCES LIVRO(ISBN)
-  ON UPDATE CASCADE
 );
 
-CREATE TABLE SECÇÃO
+CREATE TABLE SECÇÃO 
 (
   Código VARCHAR(3) NOT NULL,
-  Descrição VARCHAR(32) NOT NULL,
+  Descrição VARCHAR(32) NOT NULL, 
   PRIMARY KEY(Código),
   UNIQUE(Descrição)
 );
@@ -80,26 +79,25 @@ CREATE TABLE CÓPIA
   Prateleira TINYINT NOT NULL,
   EmpUtente INT,
   EmpData DATE,
-  PRIMARY KEY(ISBN, Num),
+  PRIMARY KEY(ISBN, Num), 
   FOREIGN KEY(ISBN) REFERENCES LIVRO(ISBN),
   FOREIGN KEY(EmpUtente) REFERENCES UTENTE(Num),
   FOREIGN KEY(Estante,Prateleira) REFERENCES PRATELEIRA(Estante, Num)
-  ON UPDATE CASCADE
 );
 /*
  * dados iniciais
  */
 
-INSERT INTO UTENTE(CC, Nome, DataNasc, Sexo, Telefone, Email)
+INSERT INTO UTENTE(Num, CC, Nome, DataNasc, Sexo, Telefone, Email)
 VALUES
- (10583212, 'João Pinto',    '1976-12-19', 'M', 913448748, 'azulibranco@fcp.pt'),
- (12447555, 'Carlos Semedo',	'1985-06-02', 'M', 223774327, NULL),
- (16348500, 'Maria Silva',   '2005-11-17', 'F', 939939939, NULL),
- (11983516, 'Pedro Costa',   '1982-01-03', 'M', 984088910, 'pc12345@xpto.com'),
- (18301622, 'Filipa Mendes', '2002-05-03', 'F', 227045560, 'filipa.mendes@gmail.com'),
- (10521770, 'Eva Mendes',    '1975-11-18', 'F', 913434866, NULL),
- (12349596, 'Pedro Simões',  '1993-02-22', 'M', 213884445, 'simoes333@gmail.com');
-
+ (1, 10583212, 'João Pinto',    '1976-12-19', 'M', 913448748, 'azulibranco@fcp.pt'),
+ (2, 12447555, 'Carlos Semedo',	'1985-06-02', 'M', 223774327, NULL),
+ (3, 16348500, 'Maria Silva',   '2005-11-17', 'F', 939939939, NULL),
+ (4, 11983516, 'Pedro Costa',   '1982-01-03', 'M', 984088910, 'pc12345@xpto.com'),
+ (5, 18301622, 'Filipa Mendes', '2002-05-03', 'F', 227045560, 'filipa.mendes@gmail.com'),
+ (6, 10521770, 'Eva Mendes',    '1975-11-18', 'F', 913434866, NULL), 
+ (7, 12349596, 'Pedro Simões',  '1993-02-22', 'M', 213884445, 'simoes333@gmail.com');
+ 
 INSERT INTO LIVRO(ISBN, Título, Editora, Ano)
 VALUES
  (9789722709620, 'Os Lusíadas', 'INCM', 1999),
@@ -132,7 +130,7 @@ VALUES
 
 INSERT INTO ESTANTE(Código, Secção)
 VALUES
-  ('E12', 'L'),
+  ('E12', 'L'), 
   ('E13', 'L'),
   ('E14', 'BD'),
   ('E99', 'T');
@@ -141,9 +139,9 @@ INSERT INTO PRATELEIRA(Estante, Num)
 VALUES
   ('E12', 1), ('E12', 2), ('E12', 3),
   ('E13', 1), ('E13', 2), ('E13', 3),
-  ('E14', 1), ('E14', 2),
+  ('E14', 1), ('E14', 2), 
   ('E99', 1), ('E99', 2), ('E99', 3);
-
+  
 INSERT INTO CÓPIA(ISBN, Num, Estante, Prateleira, EmpUtente, EmpData)
 VALUES
   /* Lusíadas */
@@ -163,7 +161,7 @@ VALUES
   (9789720049759, 3, 'E13', 2, NULL, NULL),
   /* Effective Java */
   (9780321356680, 1, 'E99', 3, NULL, NULL),
-  /* Astérix o Gaulês */
+  /* Astérix o Gaulês */ 
   (9789724138695, 1, 'E14', 1, 4, '2019-02-01'),
   (9789724138695, 2, 'E14', 1, NULL, NULL),
   (9789724138695, 3, 'E14', 1, 3, '2018-11-01'),
@@ -171,3 +169,5 @@ VALUES
   /* A Volta à Gália de Astérix */
   (9789724138947, 1, 'E14', 2, NULL, NULL),
   (9789724138947, 2, 'E14', 2, 4, '2019-02-01');
+  
+  
