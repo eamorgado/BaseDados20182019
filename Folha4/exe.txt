@@ -42,8 +42,28 @@
     4.2) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null;
     4.3) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null group by ISBN;
     4.4) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null and Num>=2 group by ISBN;
-    4.5) select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null and Num>=2 group by ISBN;
-         select max(EmpData) as 'Data' from CÓPIA group by ISBN order by data;
-    4.6) 
+         select count(*) as NúmeroCópias from CÓPIA where EmpUtente is not null and Num>=2 group by ISBN;
+    4.5) select max(EmpData) as 'Data' from CÓPIA group by ISBN not null order by data;
+    4.6)
+*/
 
+/*5
+    5.1) select U.Nome, C.ISBN,C.Num as Cópia,C.EmpData from UTENTE U, CÓPIA C where C.EmpUtente=U.Num order by U.Nome;
+    5.2) select U.Nome, L.Título,C.Num as Cópia,C.EmpData from UTENTE U, CÓPIA C, LIVRO L where C.EmpUtente=U.Num and C.ISBN=L.ISBN order by U.Nome, L.Título;
+    5.3) select L.Título, (select count(*) from CÓPIA where ISBN=L.ISBN) as Total, (select count(*) from CÓPIA where ISBN=L.ISBN and EmpUtente is not null) as Emprestadas, ((select count(*) from CÓPIA where ISBN=L.ISBN)-(select count(*) from CÓPIA where ISBN=L.ISBN and EmpUtente is not null)) as Livres  from LIVRO L;
+
+*/
+
+/*6
+    6.1) select Título, ISBN in (select ISBN from CÓPIA where EmpUtente is not null) as TemEmpréstimo  from LIVRO;
+    6.2) select Nome, Num from UTENTE where (select count(*) from CÓPIA where EmpUtente=Num)=1;
+    6.3) select Nome, Num from UTENTE where (select count(*) from CÓPIA where EmpUtente=Num)>1;
+    6.4) select U.Nome, (select count(*) from CÓPIA where EmpUtente=U.Num) as NumCópiasPossuídas from UTENTE U;
+*/
+
+/*7
+    7.1) delete from UTENTE  where Num not in (select EmpUtente from CÓPIA where EmpUtente is not null);
+    7.2) delete from CÓPIA where ISBN in (select ISBN from LIVRO where Título like 'Astérix o Gaulês') and Num in (select Num from CÓPIA where EmpUtente is null);
+    7.3) update CÓPIA set EmpUtente=null, EmpData=null where EmpUtente=(select Num from UTENTE where Nome like 'Pedro Costa');
+    7.4)
 */
