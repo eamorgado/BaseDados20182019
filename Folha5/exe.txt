@@ -1,0 +1,19 @@
+/*1:
+    SQL) select * from CUSTOMER where Country='France';
+    Alg)  R=CUSTOMER, C==Customer='France'
+*/
+/*2:
+    select Title from MOVIE where Title like '%Spider-Man%' order by Year;
+*/
+
+/*3:
+    select Country, CustomerId as NumClients from CUSTOMER order by NumClients desc;
+*/
+
+4:
+    select D.Name as Department, S.Name as Manager from DEPARTMENT D, STAFF S where D.Manager=S.StaffId order by Department;
+
+5:
+    select G.Label, (select count(*) from MOVIE_GENRE where G.GenreId=GenreId) as NumMovies from GENRE G;
+
+6:
