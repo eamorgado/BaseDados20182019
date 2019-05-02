@@ -22,13 +22,11 @@ BEGIN
   SELECT Duration INTO movie_duration
   FROM MOVIE WHERE MovieId = movie_id;
 
-  --New--------------------------------
   SELECT Country INTO country_name
   FROM CUSTOMER WHERE CustomerId = customer_id;
 
   SELECT R.Name INTO region_name
   FROM REGION R, COUNTRY C WHERE C.Name like country_name AND R.RegionId = C.RegionId;
-  -----------------------------------------
   SET c = 0.5 + 0.01 * movie_duration;
 
   IF HOUR(stream_time) >= 21 THEN
@@ -37,11 +35,10 @@ BEGIN
       SET c = c + 0.75;
     END IF;
   END IF;
-  --New---------------------------
+
   IF country_name = 'United States' OR region_name = 'Europe' THEN
     SET c = c + 1;
   END IF;
-  ----------------------------
   RETURN c;
 END $
 
@@ -71,6 +68,11 @@ DELIMITER $
 CREATE PROCEDURE string_split
 (IN string TEXT, IN sep CHAR(1), OUT num INT)
 BEGIN
+  /*
+   * Dada uma string e um parâmetro de split, sep, parte a string,
+   *    forma uma tabela onde cada entrada sera uma das frases cortadas, no final, retorna
+   *    o número de palávras na frase
+   */
   DECLARE pos INT;
   DECLARE aux TEXT;
   DECLARE str text;
@@ -91,7 +93,6 @@ BEGIN
   SET num = 0;
   REPEAT
     SET pos = INSTR(aux, BINARY sep);
-
     IF POS > 0 THEN
       SET str = SUBSTRING(aux, 1, pos - 1);
       SET aux = SUBSTRING(aux, pos + 1, LENGTH(aux) - pos);
@@ -126,7 +127,6 @@ BEGIN
   DECLARE i INT;
   DECLARE actor_id INT;
   DECLARE genre_id INT;
-
   -- Insere entrada em MOVIE.
   INSERT INTO MOVIE(Title, Year, Duration)
   VALUES(title, year, duration);
@@ -137,9 +137,14 @@ BEGIN
 
   SET i = 1;
   WHILE i <= n DO
-    -- A COMPLETAR:
     -- Processa lista de actores, inserindo entradas em MOVIE_ACTOR.
+    SELECT ActorId INTO actor_id
+    FROM ACTOR WHERE Name = SUBSTRING_INDEX(actor_name_list,',',1);
 
+    INSERT INTO MOVIE_ACTOR(MovieId,ActorId)
+    VAlUES(movie_id,actor_id);
+
+    SET actor_name_list = SUBSTRING(actor_name_list, LOCATE(',', actor_name_list) + 1);
     SET i = i + 1;
   END WHILE;
 
@@ -147,8 +152,17 @@ BEGIN
 
   SET i = 1;
   WHILE i <= n DO
+
     -- A COMPLETAR:
     -- Processa lista de géneros, inserindo entradas em MOVIE_GENRE.
+    SELECT GenreId INTO genre_id
+    FROM GENRE WHERE Label = SUBSTRING_INDEX(genre_label_list,',',1);
+
+    INSERT INTO MOVIE_GENRE(MovieId,GenreId)
+    VALUES(movie_id,genre_id);
+
+    SET genre_label_list = SUBSTRING(genre_label_list, LOCATE(',', genre_label_list) + 1);
+
 
     SET i = i + 1;
   END WHILE;
