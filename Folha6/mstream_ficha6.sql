@@ -182,9 +182,60 @@ registerMovie2(
   IN genre_label_list TEXT,
   OUT movie_id INT)
 BEGIN
+    DECLARE i INT;
+    DECLARE n INT;
+    DECLARE actor_id INT;
+    DECLARE actor_name VARCHAR(255);
+    DECLARE genre_id INT;
+  --
+  INSERT INTO MOVIE(Title, Year, Duration)
+  VALUES(title, year, duration);
 
-  -- A COMPLETAR
+  SET movie_id = LAST_INSERT_ID();
 
+  CALL string_split(actor_name_list, ',', n);
+
+  SET i = 1;
+  WHILE i <= n DO
+    -- Processa lista de actores, inserindo entradas em MOVIE_ACTOR.
+    SET actor_id = NULL;
+    SET actor_name = SUBSTRING_INDEX(actor_name_list,',',1);
+
+    SELECT ActorId INTO actor_id
+    FROM ACTOR WHERE Name = actor_name;
+
+    IF actor_id IS NULL THEN
+        INSERT INTO ACTOR(Name)
+        VALUES(actor_name);
+
+        SET actor_id = LAST_INSERT_ID();
+    END IF;
+
+    INSERT INTO MOVIE_ACTOR(MovieId,ActorId)
+    VAlUES(movie_id,actor_id);
+
+    SET actor_name_list = SUBSTRING(actor_name_list, LOCATE(',', actor_name_list) + 1);
+    SET i = i + 1;
+  END WHILE;
+
+  CALL string_split(genre_label_list, ',', n);
+
+  SET i = 1;
+  WHILE i <= n DO
+
+    -- A COMPLETAR:
+    -- Processa lista de géneros, inserindo entradas em MOVIE_GENRE.
+    SELECT GenreId INTO genre_id
+    FROM GENRE WHERE Label = SUBSTRING_INDEX(genre_label_list,',',1);
+
+    INSERT INTO MOVIE_GENRE(MovieId,GenreId)
+    VALUES(movie_id,genre_id);
+
+    SET genre_label_list = SUBSTRING(genre_label_list, LOCATE(',', genre_label_list) + 1);
+
+
+    SET i = i + 1;
+  END WHILE;
 END $
 DELIMITER ;
 
