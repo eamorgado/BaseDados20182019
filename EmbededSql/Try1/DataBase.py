@@ -1,4 +1,5 @@
 import mysql.connector as msq
+from prettytable import PrettyTable
 
 class DataBase():
     def __init__(self,given_host,given_user,given_pass,given_database=None):
@@ -21,13 +22,17 @@ class DataBase():
             user = str(given_user),
             passwd = str(given_pass)
         )
-        self.cursor = None
-        
+        self.cursor = None        
     def connectTo(self,db):
+        if self.database is not None:
+            print("Already Connected to "+self.database)
+            return self.mydb
         if self.findDataBase(db):
             ndb = DataBase(self.host,self.user,self.passw,db)
             ndb.getCursor()
-            print("...Connected...")
+            print("...Connected to "+db+"...")
+            self.cursor = None
+            self.getCursor()
             return ndb
         else:
             print("Database "+db+" does not exist")
@@ -37,9 +42,14 @@ class DataBase():
         if self.cursor is None:
             self.cursor = self.mydb.cursor()
         return self.cursor
-    def execute(self,command):
+    def commit(self):
+        self.mydb.commit()
+    def execute(self,command,many=False,data=None):
         #execute command
-        self.cursor.execute(command)
+        if many:
+            self.cursor.executemany(command,data)
+        else:
+            self.cursor.execute(command)
     def showDatabases(self,p=False):
         #executes SHOW DATABASES if p=True prints result
         self.execute("SHOW DATABASES")
@@ -62,4 +72,20 @@ class DataBase():
     def deleteDataBase(self,db):
         if self.findDataBase(db):
             cmd = "DROP DATABASE %s",db
-            self.execute("DROP DATABASE "+db) 
+            self.execute("DROP DATABASE "+db)
+        else:
+            print("Database "+db+" doesn't exist") 
+    def printCursor(self,l=None):
+        values = self.cursor.fetchall()
+        if l is  not None:
+            t = PrettyTable()
+            t.field_names = l
+            for val in values:
+                t.add_row(val)
+            print(t)
+        else:
+            for val in values:
+                s = ""
+                for x in val:
+                    s += "{: >20}".format(str(x))+"\t"
+                print(s)
