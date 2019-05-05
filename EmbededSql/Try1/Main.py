@@ -2,7 +2,7 @@ import DataBase as DB
 from Data import data
 from Data import movies
 
-db = DB.DataBase("localhost","root","londres99")
+db = DB.DataBase("localhost","root","123pass")
 cursor = db.getCursor()
 if db.findDataBase("testdb"):
     db.deleteDataBase("testdb")
