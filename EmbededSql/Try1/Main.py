@@ -2,7 +2,7 @@ import DataBase as DB
 from Data import data
 from Data import movies
 
-db = DB.DataBase("localhost","root","123pass")
+db = DB.DataBase("localhost","root","123pass")#123pass--passwd for mysql in my machine, replace it with yours
 cursor = db.getCursor()
 if db.findDataBase("testdb"):
     db.deleteDataBase("testdb")
