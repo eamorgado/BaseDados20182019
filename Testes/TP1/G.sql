@@ -1,0 +1,1 @@
+delete from MOVIE_ACTOR where ActorId in (select ActorId from ACTOR where Name like 'Tom%');

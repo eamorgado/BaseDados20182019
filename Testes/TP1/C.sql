@@ -1,0 +1,1 @@
+DELETE FROM STREAM WHERE MONTH(StreamDate)=2 AND YEAR(StreamDate)=2018 AND Charge<6;
