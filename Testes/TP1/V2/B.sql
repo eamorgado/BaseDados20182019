@@ -1,0 +1,1 @@
+select D.Name,S.Name from DEPARTMENT D,STAFF S where D.Manager=S.StaffId order by D.Name;
